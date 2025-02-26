@@ -1,4 +1,4 @@
-import { useRef, useState,useEffect } from 'react';
+import { useRef, useState,useEffect,useCallback } from 'react';
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
@@ -62,7 +62,8 @@ const [modalIsOpen, setModalIsOpen] = useState()
     localStorage.setItem('selectedPlaces',JSON.stringify([id,...storedIds]));
   }
   //<--------------------------------------------------------------------->
-  function handleRemovePlace() {
+  
+  const handleRemovePlace = useCallback(  function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
@@ -70,7 +71,8 @@ const [modalIsOpen, setModalIsOpen] = useState()
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [] ;
     localStorage.setItem('selectedPlaces',JSON.stringify(storedIds.filter((id) => id!== selectedPlace.current )));
     
-  }
+  },[]);
+
 
   return (
     <>
@@ -79,6 +81,7 @@ const [modalIsOpen, setModalIsOpen] = useState()
     onCancel={handleStopRemovePlace}
     onConfirm={handleRemovePlace}
   />
+
 </Modal>
 
       <header>
